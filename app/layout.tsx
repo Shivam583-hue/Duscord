@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -20,11 +22,13 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
         <body
-          className={`${font.variable}  antialiased`}
+          className={cn(font.variable, "bg-white dark:bg-[#313338]")}
         >
-          {children}
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
