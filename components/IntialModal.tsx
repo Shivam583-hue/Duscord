@@ -1,4 +1,5 @@
 "use client"
+import axios from "axios"
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogHeader, DialogFooter } from "@/components/ui/dialog"
 import { Form, FormControl, FormLabel, FormMessage, FormField, FormItem } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -7,6 +8,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { FileUpload } from "@/components/FileUpload"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -23,9 +25,17 @@ const IntialModal = () => {
   })
 
   const isLoading = form.formState.isSubmitting
+  const router = useRouter()
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values)
+    try {
+      await axios.post("/api/servers", values)
+      form.reset()
+      router.refresh()
+      window.location.reload()
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
   }
 
   return (
