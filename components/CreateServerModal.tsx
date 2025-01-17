@@ -10,17 +10,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { FileUpload } from "@/components/FileUpload"
 import { useRouter } from "next/navigation"
-import { useModal } from "@/hooks/use-modal-store"
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   imageUrl: z.string().min(1, { message: "Image is required" }),
 })
 
-const CreateServerModal = () => {
-
-  const { isOpen, type, onClose } = useModal()
-  const isModalOpen = isOpen && type === "createServer"
+const CreateServerModal = ({ open, onClose }: { open: boolean, onClose: () => void }) => {
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -44,13 +40,9 @@ const CreateServerModal = () => {
     }
   }
 
-  const onCloseModal = () => {
-    form.reset()
-    onClose()
-  }
 
   return (
-    <Dialog open={isModalOpen} onOpenChange={onCloseModal}>
+    <Dialog open={open} onOpenChange={onClose} >
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl font-bold text-center">
@@ -115,7 +107,7 @@ const CreateServerModal = () => {
           </div>
         </Form>
       </DialogContent>
-    </Dialog>
+    </Dialog >
   )
 }
 

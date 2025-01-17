@@ -7,6 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { ModeToggle } from "@/components/mode-toggle"
 import { UserButton } from "@clerk/nextjs"
+import { Suspense } from "react"
 
 
 const NavigationSidebar = async () => {
@@ -31,7 +32,7 @@ const NavigationSidebar = async () => {
       <NavigationAction />
       <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
       <ScrollArea className="flex-1 w-full">
-        {servers.map((server) => (
+        {servers.map((server: any) => (
           <div key={server.id} className="mb-5">
             <NavigationItem id={server.id} imageUrl={server.imageUrl} name={server.name} />
           </div>
